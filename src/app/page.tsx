@@ -1,7 +1,10 @@
 import Button from '@/Components/Button'
+import { db } from '@/utils/db'
 
 
-export default function Home() {
+export default async function Home() {
+
+  await db.set('hello', 'hello')
   return (
     <div className="flex min-h-screen flex-col items-center justify-between p-24">
       <Button variant='ghost'>hello</Button>
