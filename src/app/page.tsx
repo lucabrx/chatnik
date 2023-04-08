@@ -1,12 +1,10 @@
-import Image from 'next/image'
-import { Poppins } from 'next/font/google'
+import Button from '@/Components/Button'
 
-const inter = Poppins
 
 export default function Home() {
   return (
     <div className="flex min-h-screen flex-col items-center justify-between p-24">
-      
+      <Button variant='ghost'>hello</Button>
     </div>
   )
 }
