@@ -1,4 +1,4 @@
-import Button from '@/Components/Button'
+import Button from '@/Components/ui/Button'
 import { db } from '@/utils/db'
 
 

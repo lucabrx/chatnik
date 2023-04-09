@@ -11,6 +11,7 @@
 - upstash.com for DB
 - @upstash/redis connect  with redis db (upstash) (no need for ubuntu on windows)
 - @next-auth/upstash-redis-adapter redis adapter
+- react-hot-toast for toast messsages
 
 ## next-auth 
 - pages/api because app dir dosent support it 
