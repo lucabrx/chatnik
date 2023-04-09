@@ -12,6 +12,11 @@
 - @upstash/redis connect  with redis db (upstash) (no need for ubuntu on windows)
 - @next-auth/upstash-redis-adapter redis adapter
 - react-hot-toast for toast messsages
+- @tailwindcss/forms to make forms prettier 
+- react hook form - form handler 
+- @hookform/resolver - resolver for zod 
+- zod validations
+- axios requests 
 
 ## next-auth 
 - pages/api because app dir dosent support it 
