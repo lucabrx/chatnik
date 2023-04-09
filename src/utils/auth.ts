@@ -40,11 +40,12 @@ export const authOptions: NextAuthOptions = {
                 token.id = user!.id 
                 return token 
             }
+            console.log(dbUser)
             return {
                 id: dbUser.id,
                 name: dbUser.name,
                 email: dbUser.email,
-                image: dbUser.image
+                picture: dbUser.image
             }
         },
         async session({session,token}) {

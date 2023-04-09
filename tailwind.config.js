@@ -15,7 +15,7 @@ module.exports = {
       colors: {
         "cta" : "#f7449a",
         "text" : "#f5f5f5",
-        "bg" : "#241924",
+        "bg" : "#0c1017",
         "text-sec" : "#d4d4d4",
         "input" : "#696969"
       }
