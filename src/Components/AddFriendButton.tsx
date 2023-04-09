@@ -14,11 +14,11 @@ interface AddFriendButtonProps {
 
 type FormData = z.infer<typeof addFriendSchema>
 
-const {register, handleSubmit , setError, formState: {errors}} = useForm<FormData>({
-    resolver: zodResolver(addFriendSchema)
-})
 
 const AddFriendButton: NextPage<AddFriendButtonProps> = ({}) => {
+    const {register, handleSubmit , setError, formState: {errors}} = useForm<FormData>({
+        resolver: zodResolver(addFriendSchema)
+    })
     const [showSuccessState,setShowSuccessState] = useState<boolean>(false)
 
     const addFriend = async (email:string) => {
@@ -26,8 +26,8 @@ const AddFriendButton: NextPage<AddFriendButtonProps> = ({}) => {
             const validatedEmail = addFriendSchema.parse({email})
 
             await axios.post('/api/friends/add', {
-                body: validatedEmail
-            })
+                email: validatedEmail,
+              })
             setShowSuccessState(true)
         } catch(error) {
             if(error instanceof z.ZodError) {
@@ -56,7 +56,7 @@ const AddFriendButton: NextPage<AddFriendButtonProps> = ({}) => {
     <Button>Add</Button>
 </div>
 <p className='mt-1 text-sm text-red-600'>{errors.email?.message}</p>
-{showSuccessState ? (<p className='mt-1 text-sm text-greem-600'>Friend request sent!</p>
+{showSuccessState ? (<p className='mt-1 text-sm text-green-600'>Friend request sent!</p>
 ) : null}
 </form>
 )
