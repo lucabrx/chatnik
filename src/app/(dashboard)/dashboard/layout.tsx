@@ -1,4 +1,5 @@
 import FriendRequestSidebarOption from '@/Components/FriendRequestSidebarOption';
+import { Icons } from '@/Components/Logo';
 import SidebarChatList from '@/Components/SidebarChatList';
 import SignoutButton from '@/Components/SignoutButton';
 import { getFriendByUserId } from '@/helpers/get-friends-by-user-id';
@@ -40,12 +41,12 @@ const Layout = async ({children}: LayoutProps) => {
     const unseenRequestCount = (await fetchRedis('smembers', `user:${session.user.id}:incoming_friend_requests`)as User[]).length
   return (
 <div className='w-full flex h-screen'> 
-<div className='flex h-full w-full max-w-[350px] grow flex-col gap-y-5 overflow-y-auto border-r border-text-sec px-[24px] py-[12px]'>
+<div className='flex h-full w-full max-w-[350px] grow flex-col gap-y-5 overflow-y-auto border-r border-input px-[24px] py-[12px]'>
     <Link href='/dashboard' className='flex h-16 shrink-0 items-center'>
-    <Image src='./logo.svg' alt='logo' height={50} width={140} priority  />
+    <Icons.Logo className='w-[160px] h-auto' />
     </Link>
  {friends.length > 0 ?  (<div className='text-xs font-semibold leading-6 text-text-sec'>
-    Your chats
+    Your Friends
  </div>) : null}
 
  <nav className='flex flex-1 flex-col'>

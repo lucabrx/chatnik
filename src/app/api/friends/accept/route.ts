@@ -31,7 +31,7 @@ export async function POST(req:Request) {
         }
         // so that both people are on there friend list
         await db.sadd(`user:${session.user.id}:friends`, idToAdd)
-        await db.sadd(`user:${idToAdd}:friend`, session.user.id)
+        await db.sadd(`user:${idToAdd}:friends`, session.user.id)
         // clean request 
 
         await db.srem(`user:${session.user.id}:incoming_friend_requests`, idToAdd)

@@ -17,7 +17,8 @@
 - @hookform/resolver - resolver for zod 
 - zod validations
 - axios requests 
-
+- react-textarea-autosize for textarea
+- nanoid for unique ids
 ## next-auth 
 - pages/api because app dir dosent support it 
 - jwt strategy 

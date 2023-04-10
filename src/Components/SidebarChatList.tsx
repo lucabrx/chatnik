@@ -43,6 +43,7 @@ const SidebarChatList: NextPage<SidebarChatListProps> = ({friends,sessionId}) =>
                     {unseenMessagesCount}
                 </div>)  : null}
         </a>
+        
     </li>)
 })}
 </ul>
