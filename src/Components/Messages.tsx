@@ -3,13 +3,16 @@ import cn from '@/utils/className';
 import { Message } from '@/utils/validations/message';
 import { format } from 'date-fns';
 import { type NextPage } from 'next';
+import Image from 'next/image';
 import { useRef, useState } from 'react';
 interface MessagesProps {
     initialMessages: Message[]
     sessionId: string;
+    sessionImg: string | undefined | null;
+    chatPartner: User;
 }
 
-const Messages: NextPage<MessagesProps> = ({initialMessages,sessionId}) => {
+const Messages: NextPage<MessagesProps> = ({initialMessages,sessionId,chatPartner,sessionImg}) => {
     const [messages, setMessages] = useState<Message[]>(initialMessages)
     const scrollDownRef = useRef<HTMLDivElement | null>(null)
     const formatTimestamp = (timestamp: number) => {
@@ -33,12 +36,20 @@ return (
                 <span className={cn('px-4 py-2 rounded-lg inline-block ', { 
                     'bg-cta text-white': isCurrentUser,
                     'bg-gray-200 text-gray-900': !isCurrentUser,
-                     'roudned-br-none': !hasNextMessageFromSameUser && isCurrentUser,
+                     'rounded-br-none': !hasNextMessageFromSameUser && isCurrentUser,
                      'rounded-bl-none': !hasNextMessageFromSameUser && !isCurrentUser,},
                 )} >{message.text}{' '}
-                <span className='text-xs text-gray-300'>{formatTimestamp(message.timestamp)}</span>
+                <span className={cn('text-xs', {
+                    ' text-gray-300': isCurrentUser,
+                    'text-gray-700': !isCurrentUser,
+                })}>{formatTimestamp(message.timestamp)}</span>
                 </span>
             </div>
+            <div className={cn('relative w-8 h-8 rounded-full', {
+                'order-2' : isCurrentUser,
+                'order-1' : !isCurrentUser,
+                'invisible': hasNextMessageFromSameUser
+            })}><Image src={isCurrentUser ? (sessionImg as string) : chatPartner.image } fill alt='avatar' className='rounded-full' referrerPolicy='no-referrer'  /></div>
         </div>
     </div>
 ) 

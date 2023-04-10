@@ -54,7 +54,7 @@ const Chat = async ({params}: ChatProps) => {
   const chatParter = (await db.get(`user:${chatParnerId}`)) as User 
   const initialMessages = await getChatMessages(chatId)
   return (
-<div className='flex-1 justify-between flex flex-col h-full max-h-[calc(100vh-6rem)]'> 
+<div className='flex-1 justify-between flex flex-col h-full max-h-[calc(100vh-2rem)]'> 
 <div className='flex sm:items-center justify-between py-3 border-b-2 border-input px-[24px]'>
   <div className='flex items-center space-x-4 relative'>
     <div className='relative'>
@@ -70,7 +70,7 @@ const Chat = async ({params}: ChatProps) => {
     </div>
   </div>
 </div>
-<Messages initialMessages={initialMessages} sessionId={session.user.id} />
+<Messages chatPartner={chatParter} sessionImg={session.user.image} initialMessages={initialMessages} sessionId={session.user.id} />
   <ChatInput chatPartner={chatParter} chatId={chatId} />
 
 </div>

@@ -14,7 +14,7 @@ interface SignoutButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 const SignoutButton: NextPage<SignoutButtonProps> = ({...props}) => {
     const [isSigningOut, setIsSigningOut] = useState<boolean>(false)
   return (
-<Button {...props} variant='ghost' onClick={async() => {
+<Button {...props} variant='exit' onClick={async() => {
     setIsSigningOut(true)
     try{
         await signOut()
