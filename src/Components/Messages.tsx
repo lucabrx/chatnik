@@ -9,35 +9,43 @@ import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 interface MessagesProps {
     initialMessages: Message[]
-    sessionId: string;
-    sessionImg: string | undefined | null;
-    chatPartner: User;
-    chatId: string;
+    sessionId: string
+    chatId: string
+    sessionImg: string | null | undefined
+    chatPartner: User
 }
 
-const Messages: NextPage<MessagesProps> = ({initialMessages,sessionId,chatPartner,sessionImg,chatId}) => {
+const Messages: NextPage<MessagesProps> = ({initialMessages,
+    sessionId,
+    chatId,
+    chatPartner,
+    sessionImg}) => {
     const [messages, setMessages] = useState<Message[]>(initialMessages)
+
+    useEffect(() => {
+      pusherClient.subscribe(
+        toPusherKey(`chat:${chatId}`)
+      )
+  
+      const messageHandler = (message: Message) => {
+        setMessages((prev) => [message, ...prev])
+      }
+  
+      pusherClient.bind('incoming-message', messageHandler)
+  
+      return () => {
+        pusherClient.unsubscribe(
+          toPusherKey(`chat:${chatId}`)
+        )
+        pusherClient.unbind('incoming-message', messageHandler)
+      }
+    }, [chatId])
+  
     const scrollDownRef = useRef<HTMLDivElement | null>(null)
+  
     const formatTimestamp = (timestamp: number) => {
-        return format(timestamp, 'HH:mm')
-     }
-
-
-     useEffect(() => { 
-        pusherClient.subscribe(toPusherKey(`chat:${chatId}`))
-    
-        const messageLiveHandler = (message: Message) => {
-            setMessages((prev) => [message, ...prev])
-        }
-    
-        pusherClient.bind('incoming-message', messageLiveHandler)
-    
-        return () => {
-          pusherClient.unsubscribe(toPusherKey(`user:${sessionId}:incoming_friend_requests`))
-          pusherClient.unbind('incoming-message', messageLiveHandler)
-    
-        }
-      }, [chatId, sessionId])
+      return format(timestamp, 'HH:mm')
+    }
   return (
 <div id='messages' className='flex h-full flex-1 flex-col-reverse gap-4 p-3 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue lighter scrollbar-w-2 scrolling-touch'> 
 <div ref={scrollDownRef} />

@@ -31,7 +31,7 @@ const  MobileChatLayout: NextPage<MobileChatLayoutProps> = ({friends,session,sid
   }, [pathname])
   return (
     <div className='fixed bg-bg border-b border-input top-0 inset-x-0 py-2 px-4'>
-      <div className='w-full flex justify-between items-center'>
+      <div className='w-full bg-bg flex justify-between items-center'>
         <Link
           href='/dashboard'>
           <Icons.Logo className='h-7 w-auto ' />
