@@ -1,7 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  purge: {
-  content: [
+    purge: [
     './src/pages/**/*.{js,ts,jsx,tsx}',
     './src/components/**/*.{js,ts,jsx,tsx}',
     './src/app/**/*.{js,ts,jsx,tsx}',
@@ -29,7 +28,7 @@ module.exports = {
         "input" : "#696969"
       }
     },
-  },
+
   },
   plugins: [require('@tailwindcss/forms')],
 }
