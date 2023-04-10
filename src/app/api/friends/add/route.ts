@@ -1,6 +1,8 @@
 import { fetchRedis } from "@/helpers/redis"
 import { authOptions } from "@/utils/auth"
 import { db } from "@/utils/db"
+import { pusherServer } from "@/utils/pusher"
+import { toPusherKey } from "@/utils/toPusherKey"
 import { addFriendSchema } from "@/utils/validations/add-friend"
 import { getServerSession } from "next-auth"
 import { z } from "zod"
@@ -35,6 +37,12 @@ export async function POST(req:Request) {
         if(isAlreadyAdded) {
             return new Response('Already added this user', {status:400})
         }
+
+        pusherServer.trigger(toPusherKey(`user:${idToAdd}:incoming_friend_requests`), 'incoming_friend_requests', {
+            senderId: session.user.id,
+            senderEmail: session.user.email
+        })
+        
         //check if it is on friend list
         const isAlreadyFriends = (await fetchRedis(
             'sismember',

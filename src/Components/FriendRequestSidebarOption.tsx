@@ -1,10 +1,12 @@
 'use client'
 
 
+import { pusherClient } from '@/utils/pusher';
+import { toPusherKey } from '@/utils/toPusherKey';
 import {  User } from 'lucide-react';
 import { type NextPage } from 'next';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface FriendRequestSidebarOptionProps {
   sessionId: string
@@ -17,6 +19,23 @@ initialUnseenRequestCount
   const [unseenRequestCount, setUnseenRequestCount] = useState<number>(
     initialUnseenRequestCount
   )
+
+  useEffect(() => { 
+    pusherClient.subscribe(toPusherKey(`user:${sessionId}:incoming_friend_requests`))
+
+    const friendRequestHandler = () => {
+      setUnseenRequestCount((prev) => prev + 1)
+    }
+
+    pusherClient.bind('incoming_friend_requests', friendRequestHandler)
+
+    return () => {
+      pusherClient.unsubscribe(toPusherKey(`user:${sessionId}:incoming_friend_requests`))
+      pusherClient.unbind('incoming_friend_requests', friendRequestHandler)
+
+    }
+  }, [])
+
   return (
 <Link
       href='/dashboard/requests'
@@ -27,7 +46,7 @@ initialUnseenRequestCount
    
       <p className='truncate'>Friend requests</p>
       {unseenRequestCount > 0 ? (
-        <div className='rounded-full w-5 h-5 text-xs flex justify-center items-center text-white bg-indigo-600'>
+        <div className='rounded-full w-5 h-5 text-xs flex justify-center items-center text-white bg-cta'>
           {unseenRequestCount}
         </div>
       ) : null}
