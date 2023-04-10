@@ -4,7 +4,6 @@ import ChatInput from '@/Components/ChatInput';
 
 import { fetchRedis } from '@/helpers/redis';
 import { authOptions } from '@/utils/auth';
-import { db } from '@/utils/db';
 import { messageArrayValidator } from '@/utils/validations/message';
 import { getServerSession } from 'next-auth';
 import Image from 'next/image';
@@ -51,7 +50,8 @@ const Chat = async ({params}: ChatProps) => {
   }
 
   const chatParnerId = user.id === userId1 ? userId2 : userId1 
-  const chatParter = (await db.get(`user:${chatParnerId}`)) as User 
+  const chatPartnerRaw = await fetchRedis('get', `user:${chatParnerId}`) as string 
+  const chatPartner = JSON.parse(chatPartnerRaw) as User
   const initialMessages = await getChatMessages(chatId)
   return (
 <div className='flex-1 justify-between flex flex-col h-full max-h-[calc(100vh-2rem)]'> 
@@ -59,19 +59,19 @@ const Chat = async ({params}: ChatProps) => {
   <div className='flex items-center space-x-4 relative'>
     <div className='relative'>
       <div className='relative w-8 sm:w-12 h-8 sm:h-12'>
-        <Image fill src={chatParter.image} alt='chat partner image' referrerPolicy='no-referrer' className='rounded-full'/>
+        <Image fill src={chatPartner.image} alt='chat partner image' referrerPolicy='no-referrer' className='rounded-full'/>
       </div>
     </div>
     <div className='flex flex-col leading-tight'>
      <div className='text-xl flex items-center'>
-     <span className='text-text mr-3 font-semibold '>{chatParter.name}</span>
+     <span className='text-text mr-3 font-semibold '>{chatPartner.name}</span>
      </div>
-     <span className='text-sm text-text-sec'>{chatParter.email}</span>
+     <span className='text-sm text-text-sec'>{chatPartner.email}</span>
     </div>
   </div>
 </div>
-<Messages chatId={chatId} chatPartner={chatParter} sessionImg={session.user.image} initialMessages={initialMessages} sessionId={session.user.id} />
-  <ChatInput chatPartner={chatParter} chatId={chatId} />
+<Messages chatId={chatId} chatPartner={chatPartner} sessionImg={session.user.image} initialMessages={initialMessages} sessionId={session.user.id} />
+  <ChatInput chatPartner={chatPartner} chatId={chatId} />
 
 </div>
 )
