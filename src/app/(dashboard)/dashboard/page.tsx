@@ -13,7 +13,7 @@ import { notFound } from "next/navigation"
 const Dashboard= async ({}) => { 
 
   const session = await getServerSession(authOptions)
-  if(!session) return notFound()
+  if (!session) notFound()
 
   const friends = await getFriendByUserId(session.user.id)
 
@@ -35,9 +35,6 @@ const Dashboard= async ({}) => {
     })
   )
 
-
-
-  
   return (
 <div className="container py-12 px-[20px] md:px-0"> 
 <h1 className="font-bold text-5xl mb-8">Last Talks</h1>
