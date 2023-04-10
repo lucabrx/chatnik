@@ -32,7 +32,7 @@ const ChatInput: FC<ChatInputProps> = ({ chatPartner, chatId }) => {
   }
 
   return (
-    <div className='border-t border-input px-4 pt-4 '>
+    <div className='border-t border-input  px-4 pt-4 '>
       <div className='relative flex-1 overflow-hidden rounded-lg shadow-sm ring-1 ring-inset ring-input focus-within:ring-2 focus-within:ring-cta'>
         <TextareaAutosize
           ref={textareaRef}

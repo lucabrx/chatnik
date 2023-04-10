@@ -23,6 +23,7 @@ module.exports = {
         "cta" : "#f7449a",
         "text" : "#f5f5f5",
         "bg" : "#0c1017",
+        "sidebar" : "#0D3B4C",
         "text-sec" : "#d4d4d4",
         "input" : "#696969"
       }

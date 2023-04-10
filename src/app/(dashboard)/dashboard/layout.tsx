@@ -1,5 +1,6 @@
 import FriendRequestSidebarOption from '@/Components/FriendRequestSidebarOption';
 import { Icons } from '@/Components/Logo';
+import MobileChatLayout from '@/Components/MobileChatLayout';
 import SidebarChatList from '@/Components/SidebarChatList';
 import SignoutButton from '@/Components/SignoutButton';
 import { getFriendByUserId } from '@/helpers/get-friends-by-user-id';
@@ -41,7 +42,10 @@ const Layout = async ({children}: LayoutProps) => {
     const unseenRequestCount = (await fetchRedis('smembers', `user:${session.user.id}:incoming_friend_requests`)as User[]).length
   return (
 <div className='w-full flex h-screen'> 
-<div className='flex h-full w-full max-w-[350px] grow flex-col gap-y-5 overflow-y-auto border-r border-input px-[24px] py-[12px]'>
+<div className='md:hidden'>
+    <MobileChatLayout friends={friends} session={session} sidebarOptions={sidebarOptions} unseenRequestCount={unseenRequestCount} />
+</div>
+<div className='hidden md:flex h-full w-full max-w-[350px] grow flex-col gap-y-5 overflow-y-auto border-r border-input px-[24px] py-[12px]'>
     <Link href='/dashboard' className='flex h-16 shrink-0 items-center'>
     <Icons.Logo className='w-[160px] h-auto' />
     </Link>

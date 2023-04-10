@@ -1,6 +1,8 @@
 import { fetchRedis } from "@/helpers/redis"
 import { authOptions } from "@/utils/auth"
 import { db } from "@/utils/db"
+import { pusherServer } from "@/utils/pusher"
+import { toPusherKey } from "@/utils/toPusherKey"
 import { getServerSession } from "next-auth"
 import { z } from "zod"
 
@@ -29,6 +31,9 @@ export async function POST(req:Request) {
         if(!hasFriendRequest) {
             return new Response('No friend request', {status: 400})
         }
+
+        pusherServer.trigger(toPusherKey(`user:${idToAdd}:friends`), 'new_friend', '')
+
         // so that both people are on there friend list
         await db.sadd(`user:${session.user.id}:friends`, idToAdd)
         await db.sadd(`user:${idToAdd}:friends`, session.user.id)
